@@ -6,7 +6,7 @@ package dmit2015.console;
  * @author Sam Wu
  * @version 2026.01.13
  */
-public class Circle {
+public class Circle implements Shape{
     // Define a field to track the radius of this circle
     private double radius;
 
@@ -33,14 +33,23 @@ public class Circle {
     }
 
     // Define instance-level methods to determine area, diameter, perimeter
+    @Override
     public double getArea() {
         return Math.PI * radius * radius;
     }
+
     public double getDiameter() {
         return 2 * radius;
     }
+
+    @Override
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
 
+
+    @Override
+    public String toString() {
+        return String.format("Radius: %.2f", radius);
+    }
 }
