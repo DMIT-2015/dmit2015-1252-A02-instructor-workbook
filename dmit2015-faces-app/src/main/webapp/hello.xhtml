@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html">
+<h:head>
+    <title>Hello World in JSF</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h:messages />
+        <h:outputText value="#{helloRequest.message}"/><br/>
+        <h:inputText value="#{helloRequest.userInput}"/><br/>
+        <h:commandButton value="Submit" action="#{helloRequest.submit}"/>
+    </h:form>
+</h:body>
+</html>
