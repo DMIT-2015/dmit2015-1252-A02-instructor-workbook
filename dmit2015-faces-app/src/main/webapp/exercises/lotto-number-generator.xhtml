@@ -1,0 +1,36 @@
+<!-- This is a Faces composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="lotto-number-generator"/>
+
+    <!-- Define main content for the page -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Lotto Number Generator</h1>
+            <h:form id="lotto-number-generator_form" role="form">
+                <p:panel header="Welcome to Lotto Number Generator">
+                    <!-- Add page-specific content here, e.g., PrimeFaces components -->
+                    <div class="field">
+                        <p:outputLabel for="@next">Max Number</p:outputLabel>
+                        <p:inputNumber id="maxValue" value="#{lottoNumberGeneratorRequest.maxValue}"/>
+                    </div>
+                    <p:commandButton value="Generate"
+                                     action="#{lottoNumberGeneratorRequest.onSubmit()}" />
+                    <p:commandButton value="Clear"
+                                     action="#{lottoNumberGeneratorRequest.onClear()}"
+                                     immediate="true"
+                                     update="@form maxValue"
+                    />
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
