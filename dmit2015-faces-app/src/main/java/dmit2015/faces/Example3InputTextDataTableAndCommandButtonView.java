@@ -33,6 +33,14 @@ public class Example3InputTextDataTableAndCommandButtonView implements Serializa
     @Getter
     private List<Task> tasks = new ArrayList<>();   // List of tasks added
 
+    @Getter
+    private List<Task> completedTasks = new ArrayList<>();
+
+    public void completeTask(Task selectedTask) {
+        completedTasks.add(selectedTask);
+        tasks.remove(selectedTask);
+    }
+
     @PostConstruct
     public void init() {
         // Seed the tasks with 5 random task to complete

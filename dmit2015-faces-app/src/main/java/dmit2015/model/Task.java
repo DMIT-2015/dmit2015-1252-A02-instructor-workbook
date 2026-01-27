@@ -12,4 +12,8 @@ public class Task {
             message = "Description must between 3 and 255 characters")
     private String description;
 
+    private String priority;    // Low, Medium, High
+
+    private boolean done;
+
 }

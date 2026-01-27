@@ -23,6 +23,23 @@
                                      value="#{example3InputTextDataTableAndCommandButtonView.currentTask.description}"
                                      />
                     </div>
+                    <div class="field">
+                        <p:outputLabel for="@next">Priority</p:outputLabel>
+                        <p:selectOneMenu id="priority"
+             value="#{example3InputTextDataTableAndCommandButtonView.currentTask.priority}"
+                                         >
+                            <f:selectItem itemLabel="Low" itemValue="Low" />
+                            <f:selectItem itemLabel="Medium" itemValue="Medium" />
+                            <f:selectItem itemLabel="High" itemValue="High" />
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="@next">Done</p:outputLabel>
+                        <p:selectBooleanCheckbox id="done"
+             value="#{example3InputTextDataTableAndCommandButtonView.currentTask.done}"
+                        >
+                        </p:selectBooleanCheckbox>
+                    </div>
                     <p:commandButton value="Add Task"
                                      action="#{example3InputTextDataTableAndCommandButtonView.onAddTask()}"
                                      update="@form, taskTable"
@@ -34,7 +51,19 @@
                         <p:column headerText="Description">
                             <h:outputText value="#{currentTask.description}" />
                         </p:column>
+                        <p:column headerText="Priority">
+                            <h:outputText value="#{currentTask.priority}" />
+                        </p:column>
+                        <p:column headerText="Done">
+                            <p:selectBooleanCheckbox value="#{currentTask.done}" />
+                        </p:column>
                         <p:column headerText="Action">
+                            <p:commandButton
+                                    value="Done"
+    actionListener="#{example3InputTextDataTableAndCommandButtonView.completeTask(currentTask)}"
+    update="taskTable completedTaskPanel"
+                                    process="@this"
+                            />
                             <p:commandButton
                                 value="Delete"
                 actionListener="#{example3InputTextDataTableAndCommandButtonView.onRemoveTask(currentTask)}"
@@ -48,6 +77,18 @@
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
+<p:outputPanel id="completedTaskPanel">
+    <p:dataTable id="completedTaskTable"
+                 value="#{example3InputTextDataTableAndCommandButtonView.completedTasks}"
+                 var="currentTask">
+        <p:column headerText="Description">
+            <h:outputText value="#{currentTask.description}" />
+        </p:column>
+        <p:column headerText="Priority">
+            <h:outputText value="#{currentTask.priority}" />
+        </p:column>
+    </p:dataTable>
+</p:outputPanel>
 
 
                     <p:confirmPopup global="true">
