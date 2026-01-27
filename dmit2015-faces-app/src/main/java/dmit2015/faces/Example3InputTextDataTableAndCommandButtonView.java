@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.datafaker.Faker;
 import org.omnifaces.util.Messages;
 
 /**
@@ -31,6 +32,22 @@ public class Example3InputTextDataTableAndCommandButtonView implements Serializa
     private Task currentTask = new Task();              // The task to add
     @Getter
     private List<Task> tasks = new ArrayList<>();   // List of tasks added
+
+    @PostConstruct
+    public void init() {
+        // Seed the tasks with 5 random task to complete
+        var faker = new Faker();
+        for(int count=1; count <= 5; count++) {
+            Task currentTask = new Task();
+            currentTask.setDescription("Nuke " + faker.fallout().location());
+            tasks.add(currentTask);
+        }
+    }
+
+    public void onRemoveTask(Task selectedTask) {
+        tasks.remove(selectedTask);
+        Messages.addGlobalInfo("Removed task {0}", selectedTask);
+    }
 
     public void onAddTask() {
         try {

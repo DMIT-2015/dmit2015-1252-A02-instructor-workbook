@@ -22,10 +22,12 @@
                         <p:inputText id="userInput"
                                      value="#{example2InputTextAndCommandButtonRequest.userInput}"
                                      />
+                        <p:message for="userInput" />
                     </div>
                     <p:commandButton value="Submit"
                                      action="#{example2InputTextAndCommandButtonRequest.onSubmit()}"
-                                     />
+                                    update="userInput"
+                    />
                     <p:commandButton value="Clear"
                                      action="#{example2InputTextAndCommandButtonRequest.onClear()}"
                                      immediate="true"

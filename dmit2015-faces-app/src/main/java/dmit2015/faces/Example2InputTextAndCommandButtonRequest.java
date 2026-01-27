@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import net.datafaker.Faker;
@@ -26,6 +27,7 @@ public class Example2InputTextAndCommandButtonRequest {
     @Getter
     @Setter
     @NotBlank(message = "User input value is required")
+    @Size(min = 2, message = "Input must contain at minimum {min} characters")
     private String userInput;
 
     public void onSubmit() {
@@ -37,6 +39,8 @@ public class Example2InputTextAndCommandButtonRequest {
                      userInput,
                      faker.fallout().faction()
              );
+             // Reset the userInput value
+            userInput = null;
         } catch (Exception ex) {
             handleException(ex, "Unable to process your request.");
         }
