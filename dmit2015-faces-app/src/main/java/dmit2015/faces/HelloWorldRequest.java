@@ -33,12 +33,13 @@ public class HelloWorldRequest {
         // Example: initialize defaults derived from request context.
     }
 
-    public void onSubmit() {
+    public String onSubmit() {
         try {
             Messages.addGlobalInfo("Hello {0} and welcome to Faces World!", username);
         } catch (Exception ex) {
             handleException(ex, "Unable to process your request.");
         }
+        return "/exercises/lotto-number-generator?faces-redirect=true";
     }
 
     public void onClear() {
