@@ -34,5 +34,5 @@ PATCH https://dmit2015-1252-a02-swu-default-rtdb.europe-west1.firebasedatabase.a
 Content-Type: application/json
 
 {
-  "zzfirstName": "Josh the Great"
+  "firstName": "Josh the Great"
 }
