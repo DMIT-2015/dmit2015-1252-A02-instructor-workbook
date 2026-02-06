@@ -1,6 +1,6 @@
 ###
 
-POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{API_KEY}}}
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={{API_KEY}}
 Content-Type: application/json
 
 {
