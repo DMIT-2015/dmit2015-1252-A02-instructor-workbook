@@ -1,0 +1,12 @@
+// Execute the FirebaseAuth.http request for user1 and copy the idToken value into the user1IdToken variable value
+
+### User 1 is able to read user1 data using user1IdToken
+@user1LocalId = ""
+@user1IdToken = ""
+GET https://dmit2015-1252-oe01-swu-default-rtdb.asia-southeast1.firebasedatabase.app/multi_tenant_data/Task/{{user1LocalId}}.json?auth={{user1IdToken}}
+
+// Execute the FirebaseAuth.http request for user2 and copy the idToken value into the user1IdToken variable value
+### User 2 is unable to read user1 data using user2IdToken
+@user2IdToken = ""
+GET https://dmit2015-1252-oe01-swu-default-rtdb.asia-southeast1.firebasedatabase.app/multi_tenant_data/Task/{{user1LocalId}}.json?auth={{user2IdToken}}
+

@@ -1,7 +1,7 @@
 // Firebase Realtime Database stores JSON data in a JSON Tree structure
 
 ### Push new JSON data to the path
-POST https://dmit2015-1252-a02-swu-default-rtdb.europe-west1.firebasedatabase.app/Student.json
+POST https://dmit2015-1252-a02-swu-default-rtdb.europe-west1.firebasedatabase.app/Student.json?
 Content-Type: application/json
 
 {
