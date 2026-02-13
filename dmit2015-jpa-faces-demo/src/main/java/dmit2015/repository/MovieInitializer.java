@@ -1,5 +1,3 @@
-
-
 package dmit2015.repository;
 
 import dmit2015.entity.Movie;
@@ -9,97 +7,78 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
 public class MovieInitializer {
-    private final Logger _logger = Logger.getLogger(MovieInitializer.class.getName());
 
+    private static final Logger LOGGER = Logger.getLogger(MovieInitializer.class.getName());
+
+    private final MovieRepository movieRepository;
+
+    // Best practice: constructor injection for required deps (easier to test, avoids nulls).
     @Inject
-    private MovieRepository _movieRepository;
+    public MovieInitializer(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
-
-    /**
-     * Using the combination of `@Observes` and `@Initialized` annotations, you can
-     * intercept and perform additional processing during the phase of beans or events
-     * in a CDI container.
-     *
-     * The @Observers is used to specify this method is in observer for an event
-     * The @Initialized is used to specify the method should be invoked when a bean type of `ApplicationScoped` is being
-     * initialized
-     *
-     * Execute code to create the test data for the Movie entity.
-     * This is an alternative to using a @WebListener that implements a ServletContext listener.
-     *
-]    * @param event
-     */
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
-        _logger.info("Initializing movies");
-
-        _movieRepository.deleteAll();
+        LOGGER.info("Initializing movies");
 
 //        try {
-//            Movie movie1 = new Movie();
-////            movie1.setUsername("DAUSTIN");
-//            movie1.setTitle("When Harry Met Sally");
-//            movie1.setReleaseDate(LocalDate.parse("1989-02-12"));
-//            movie1.setGenre("Romantic Comedy");
-//            movie1.setPrice(BigDecimal.valueOf(7.99));
-//            movie1.setRating("G");
-//            _movieRepository.add(movie1);
-//
-//            Movie movie2 = new Movie();
-////            movie2.setUsername("DAUSTIN");
-//            movie2.setTitle("Ghostbusters");
-//            movie2.setReleaseDate(LocalDate.parse("1984-03-13"));
-//            movie2.setGenre("Comedy");
-//            movie2.setPrice(BigDecimal.valueOf(8.99));
-//            movie2.setRating("PG");
-//            _movieRepository.add(movie2);
-//
-//            Movie movie3 = new Movie();
-////            movie3.setUsername("DAUSTIN");
-//            movie3.setTitle("Ghostbusters 2");
-//            movie3.setReleaseDate(LocalDate.parse("1986-02-23"));
-//            movie3.setGenre("Comedy");
-//            movie3.setPrice(BigDecimal.valueOf(9.99));
-//            movie3.setRating("PG");
-//            _movieRepository.add(movie3);
-//
-//            Movie movie4 = new Movie();
-////            movie4.setUsername("DAUSTIN");
-//            movie4.setTitle("Rio Bravo");
-//            movie4.setReleaseDate(LocalDate.parse("1959-04-15"));
-//            movie4.setGenre("Western");
-//            movie4.setPrice(BigDecimal.valueOf(7.99));
-//            movie4.setRating("PG-13");
-//            _movieRepository.add(movie4);
+//            movieRepository.deleteAll();
 //        } catch (Exception ex) {
-//            ex.printStackTrace();
+//            LOGGER.log(Level.SEVERE, "Failed to delete existing movies during initialization.", ex);
+//            return;
 //        }
 
-        if (_movieRepository.count() == 0) {
-            try {
-                try (var reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/data/csv/movies.csv")))) ) {
-                    String line;
-                    final var delimiter = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-                    // Skip the first line as it is containing column headings
-                    reader.readLine();
-                    while ((line = reader.readLine()) != null) {
-                        Optional<Movie> optionalMovie = Movie.parseCsv(line);
-                        if (optionalMovie.isPresent()) {
-                            Movie csvMovie = optionalMovie.orElseThrow();
-                            _movieRepository.add(csvMovie);
-                        }
+        long count;
+        try {
+            count = movieRepository.count();
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Failed to count movies during initialization.", ex);
+            return;
+        }
+
+        if (count == 0) {
+            seedFromCsv("/data/csv/movies.csv");
+        } else {
+            LOGGER.fine(() -> "Skipping seed; repository already contains " + count + " movies.");
+        }
+    }
+
+    private void seedFromCsv(String resourcePath) {
+        try (InputStream in = getClass().getResourceAsStream(resourcePath)) {
+            if (in == null) {
+                LOGGER.warning("Seed CSV not found on classpath: " + resourcePath);
+                return;
+            }
+
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+                // Skip header row
+                reader.readLine();
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    Optional<Movie> maybeMovie = Movie.parseCsv(line);
+                    if (maybeMovie.isPresent()) {
+                        movieRepository.add(maybeMovie.get());
+                    } else {
+                        LOGGER.fine("Skipping invalid CSV row: " + line);
                     }
                 }
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
+
+            LOGGER.info("Movie seeding complete from " + resourcePath);
+
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Failed to seed movies from CSV: " + resourcePath, ex);
         }
     }
 }
