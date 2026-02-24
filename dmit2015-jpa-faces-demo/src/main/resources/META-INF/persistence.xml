@@ -4,10 +4,12 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-        <persistence-unit name="postgresql-jpa-pu" transaction-type="JTA">
+        <persistence-unit name="h2-jpa-pu" transaction-type="JTA">
             <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-            <jta-data-source>java:app/datasources/PostgreSQLDS</jta-data-source>
+            <jta-data-source>java:app/datasources/H2DatabaseDS</jta-data-source>
 
+            <class>dmit2015.entity.Movie</class>
+            <class>dmit2015.entity.Student</class>
             <!-- Data source to use with wildfly-datasources-galleon-pack
                 https://github.com/wildfly-extras/wildfly-datasources-galleon-pack -->
     <!--            <jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>-->

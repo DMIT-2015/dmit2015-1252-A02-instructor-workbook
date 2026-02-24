@@ -21,16 +21,15 @@ public class MovieRepository {
 
     @Transactional
     public void update(Movie updatedMovie) {
-        Optional<Movie> optionalMovie = findOptionalById(updatedMovie.getId());
-        if (optionalMovie.isPresent()) {
-            Movie existingMovie = optionalMovie.orElseThrow();
-            existingMovie.setTitle(updatedMovie.getTitle());
-            existingMovie.setGenre(updatedMovie.getGenre());
-            existingMovie.setPrice(updatedMovie.getPrice());
-            existingMovie.setRating(updatedMovie.getRating());
-            existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
-            em.merge(existingMovie);
-        }
+        Movie existingMovie = em.find(Movie.class, updatedMovie.getId());
+        if (existingMovie == null) return;
+
+        existingMovie.setTitle(updatedMovie.getTitle());
+        existingMovie.setGenre(updatedMovie.getGenre());
+        existingMovie.setPrice(updatedMovie.getPrice());
+        existingMovie.setRating(updatedMovie.getRating());
+        existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
+        // merge not needed; managed entity will be flushed at commit
     }
 
     @Transactional
@@ -55,12 +54,7 @@ public class MovieRepository {
     }
 
     public Optional<Movie> findOptionalById(Long id) {
-        try {
-            Movie querySingleResult = findById(id);
-            return Optional.of(querySingleResult);
-        } catch (Exception ex) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(em.find(Movie.class, id));
     }
 
     public List<Movie> findAll() {
