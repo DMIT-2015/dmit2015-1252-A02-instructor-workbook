@@ -1,6 +1,7 @@
 package dmit2015.entity;
 
 import dmit2015.entity.Student;
+import dmit2015.repository.StudentRepository;
 import dmit2015.service.JakartaPersistenceStudentService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
@@ -19,8 +20,7 @@ public class StudentInitializer {
     private final Logger logger = Logger.getLogger(StudentInitializer.class.getName());
 
     @Inject
-    @Named("jakartaPersistenceStudentService")
-    private JakartaPersistenceStudentService studentService;
+    private StudentRepository studentRepository;
 
 
     /**
@@ -40,34 +40,34 @@ public class StudentInitializer {
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
         logger.info("Initializing students");
 
-        if (studentService.count() == 0) {
+        if (studentRepository.count() == 0) {
             try {
                 var student1 = new Student();
-                student1.setFirstName("First1");
-                student1.setLastName("Last1");
-                student1.setEmail("first1.last1@dmit2015.ca");
+                student1.setFirstName("Joshua");
+                student1.setLastName("De Ruiter");
+                student1.setEmail("joshuad@dmit2015.ca");
                 student1.setSection("DMIT2015-A02");
-                studentService.createStudent(student1);
+                studentRepository.add(student1);
 
                 var student2 = new Student();
-                student2.setFirstName("First2");
-                student2.setLastName("Last2");
-                student2.setEmail("first2.last2@dmit2015.ca");
+                student2.setFirstName("Jaymon");
+                student2.setLastName("Boupjasiri");
+                student2.setEmail("jaymonb@dmit2015.ca");
                 student2.setSection("DMIT2015-A02");
-                studentService.createStudent(student2);
+                studentRepository.add(student2);
 
                 var student3 = new Student();
-                student3.setFirstName("First3");
-                student3.setLastName("Last3");
-                student3.setEmail("first3.last3@dmit2015.ca");
+                student3.setFirstName("Matt");
+                student3.setLastName("Liwan");
+                student3.setEmail("mattl@dmit2015.ca");
                 student3.setSection("DMIT2015-A02");
-                studentService.createStudent(student3);
+                studentRepository.add(student3);
 
             } catch (Exception ex) {
                 logger.warning(ex.getMessage());
             }
 
-            logger.info("Created " + studentService.count() + " records.");
+            logger.info("Created " + studentRepository.count() + " records.");
         }
     }
 }
