@@ -42,26 +42,29 @@ public class StudentInitializer {
 
         if (studentRepository.count() == 0) {
             try {
-                var student1 = new Student();
-                student1.setFirstName("Joshua");
-                student1.setLastName("De Ruiter");
-                student1.setEmail("joshuad@dmit2015.ca");
-                student1.setSection("DMIT2015-A02");
-                studentRepository.add(student1);
-
-                var student2 = new Student();
-                student2.setFirstName("Jaymon");
-                student2.setLastName("Boupjasiri");
-                student2.setEmail("jaymonb@dmit2015.ca");
-                student2.setSection("DMIT2015-A02");
-                studentRepository.add(student2);
-
-                var student3 = new Student();
-                student3.setFirstName("Matt");
-                student3.setLastName("Liwan");
-                student3.setEmail("mattl@dmit2015.ca");
-                student3.setSection("DMIT2015-A02");
-                studentRepository.add(student3);
+//                var student1 = new Student();
+//                student1.setFirstName("Joshua");
+//                student1.setLastName("De Ruiter");
+//                student1.setEmail("joshuad@dmit2015.ca");
+//                student1.setSection("DMIT2015-A02");
+//                studentRepository.add(student1);
+//
+//                var student2 = new Student();
+//                student2.setFirstName("Jaymon");
+//                student2.setLastName("Boupjasiri");
+//                student2.setEmail("jaymonb@dmit2015.ca");
+//                student2.setSection("DMIT2015-A02");
+//                studentRepository.add(student2);
+//
+//                var student3 = new Student();
+//                student3.setFirstName("Matt");
+//                student3.setLastName("Liwan");
+//                student3.setEmail("mattl@dmit2015.ca");
+//                student3.setSection("DMIT2015-A02");
+//                studentRepository.add(student3);
+                seed("Marco","Pollo","m.pollo@dmit2015.ca","DMIT2015-A02");
+                seed("Reysan","Pollo","r.pollo@dmit2015.ca","DMIT2015-A02");
+                seed("Quartz","Pollo","q.pollo@dmit2015.ca","DMIT2015-A02");
 
             } catch (Exception ex) {
                 logger.warning(ex.getMessage());
@@ -69,5 +72,14 @@ public class StudentInitializer {
 
             logger.info("Created " + studentRepository.count() + " records.");
         }
+    }
+
+    private void seed(String firstName, String lastName, String email, String section) {
+        var currentStudent = new Student();
+        currentStudent.setFirstName(firstName);
+        currentStudent.setLastName(lastName);
+        currentStudent.setEmail(email);
+        currentStudent.setSection(section);
+        studentRepository.add(currentStudent);
     }
 }
