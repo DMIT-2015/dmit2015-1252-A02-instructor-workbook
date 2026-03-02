@@ -90,9 +90,8 @@ public class Student implements Serializable {
     // Factory method to create a new Student instance
     public static Student of(Faker faker) {
         Student currentStudent = new Student();
-        // TODO: uncomment below set each property with fake data
         currentStudent.setFirstName(faker.name().firstName());
-        // currentStudent.setProperty2(faker.provider().method());
+        currentStudent.setLastName(faker.name().lastName());
         // currentStudent.setProperty3(faker.provider().method());
         return currentStudent;
     }
