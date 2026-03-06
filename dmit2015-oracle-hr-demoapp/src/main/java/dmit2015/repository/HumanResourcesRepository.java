@@ -1,6 +1,7 @@
 package dmit2015.repository;
 
 import dmit2015.entity.Department;
+import dmit2015.entity.Employee;
 import jakarta.data.repository.Find;
 import jakarta.data.repository.OrderBy;
 import jakarta.data.repository.Query;
@@ -23,4 +24,14 @@ select d
  order by d.departmentName
 """)
     List<Department> departmentsBy(String departmentName);
+
+    @Query("""
+select e
+from Employee e join fetch e.department join fetch e.job join fetch e.manager
+where e.department.id = ?1
+""")
+    List<Employee> employeesByDepartmentId(Short deptId);
+
+    @Find
+    Department departmentByDepartmentId(Short id);
 }
