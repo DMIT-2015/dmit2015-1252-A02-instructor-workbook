@@ -14,23 +14,22 @@
         template="/WEB-INF/faces-templates/layout.xhtml"
 >
 
-    <ui:param name="title" value="Create Movie"/>
+    <ui:param name="title" value="Edit Movie"/>
 
     <ui:define name="maincontent">
 
-        <h1>Create Movie</h1>
+        <h1>Edit Movie</h1>
 
         <h:form prependId="false">
-            <p:focus context="panel"/>
 
-            <p:panel id="panel" header="Movie Details">
+            <p:panel header="Movie Details">
                 <div class="ui-fluid formgrid grid">
                     <div class="field col-12">
                         <label for="title">Title</label>
                         <p:inputText
                                 id="title"
                                 type="text"
-                                value="#{currentMovieCreateView.newMovie.title}">
+                                value="#{currentMovieEditView.existingMovie.title}">
                         </p:inputText>
                     </div>
 
@@ -39,7 +38,7 @@
                         <p:inputText
                                 id="genre"
                                 type="text"
-                                value="#{currentMovieCreateView.newMovie.genre}">
+                                value="#{currentMovieEditView.existingMovie.genre}">
                         </p:inputText>
                     </div>
 
@@ -48,7 +47,7 @@
                         <p:inputText
                                 id="rating"
                                 type="text"
-                                value="#{currentMovieCreateView.newMovie.rating}">
+                                value="#{currentMovieEditView.existingMovie.rating}">
                         </p:inputText>
                     </div>
 
@@ -57,7 +56,7 @@
                         <p:inputText
                                 id="price"
                                 type="text"
-                                value="#{currentMovieCreateView.newMovie.price}">
+                                value="#{currentMovieEditView.existingMovie.price}">
                         </p:inputText>
                     </div>
 
@@ -66,21 +65,18 @@
                         <p:datePicker
                                 id="releaseDate"
                                 showIcon="true"
-                                pattern="yyyy-MM-dd"
-                                value="#{currentMovieCreateView.newMovie.releaseDate}">
-                            <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                                pattern="MMM d, yyyy"
+                                value="#{currentMovieEditView.existingMovie.releaseDate}">
                         </p:datePicker>
                     </div>
 
                 </div>
 
-                <p:commandButton
-                        id="createButton"
-                        value="Create"
-                        icon="pi pi-save"
-                        action="#{currentMovieCreateView.onCreateNew()}"
-                        update=":messages @form"
-                />
+                <p:commandButton id="updateButton"
+                                 value="Save"
+                                 icon="pi pi-save"
+                                 action="#{currentMovieEditView.onUpdate()}"
+                                 update=":messages @form"/>
 
             </p:panel>
 
