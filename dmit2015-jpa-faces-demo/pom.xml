@@ -249,8 +249,12 @@ deploy, redeploy, undeploy or run your application.  -->
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>5.1.5.Final</version>
-
                 <configuration>
+
+                    <scripts>
+                        <script>./wildfly-scripts/configure-elytron.cli</script>
+                    </scripts>
+
                     <feature-packs>
                         <feature-pack>
                             <location>wildfly@maven(org.jboss.universe:community-universe)#39.0.1.Final</location>
