@@ -253,6 +253,7 @@ deploy, redeploy, undeploy or run your application.  -->
 
                     <scripts>
                         <script>./wildfly-scripts/configure-elytron.cli</script>
+                        <script>./wildfly-scripts/enable-oneway-https.cli</script>
                     </scripts>
 
                     <feature-packs>

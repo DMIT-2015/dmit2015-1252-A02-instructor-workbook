@@ -1,4 +1,4 @@
-package dmit2015.view;
+package common.security.view;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;

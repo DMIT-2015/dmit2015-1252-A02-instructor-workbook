@@ -52,8 +52,9 @@ public class MovieDeleteView implements Serializable {
             movieRepository.deleteById(existingMovie.getId());
             Messages.addFlashGlobalInfo("Delete was successful.");
             nextPage = "index?faces-redirect=true";
+        } catch (RuntimeException ex) {
+            Messages.addGlobalWarn(ex.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
             Messages.addGlobalError("Delete not successful.");
         }
         return nextPage;
