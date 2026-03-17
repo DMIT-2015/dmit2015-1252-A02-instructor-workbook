@@ -198,6 +198,12 @@
             <artifactId>mapstruct</artifactId>
             <version>1.6.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.microprofile.rest.client</groupId>
+            <artifactId>microprofile-rest-client-api</artifactId>
+            <version>4.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -255,6 +261,15 @@
                     <debug>true</debug>
                     <debugPort>8787</debugPort>
                     <debugSuspend>false</debugSuspend>
+
+                    <layers>
+                        <!-- https://docs.wildfly.org/39/WildFly_Maven_Plugin_Guide.html#wildfly_layers -->
+                        <layer>cloud-server</layer>
+                        <layer>microprofile-config</layer>
+                        <layer>microprofile-rest-client</layer>
+                        <layer>microprofile-openapi</layer>
+                        <layer>jsf</layer>
+                    </layers>
                 </configuration>
             </plugin>
 
