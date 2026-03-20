@@ -1,5 +1,5 @@
 ### Create a new entity
-POST http://localhost:8080/restapi/countries
+POST http://localhost:8090/restapi/countries
 Content-Type: application/json
 
 {
@@ -9,13 +9,13 @@ Content-Type: application/json
 }
 
 ### GET All entity from REST API endpoint
-GET http://localhost:8080/restapi/countries
+GET http://localhost:8090/restapi/countries
 
 ### GET One entity from REST API endpoint
-GET http://localhost:8080/restapi/countries/AB
+GET http://localhost:8090/restapi/countries/AB
 
 ### UPDATE entity at the REST API endpoint - will replace all properties with the properties in the request body
-PUT http://localhost:8080/restapi/countries/AB
+PUT http://localhost:8090/restapi/countries/AB
 Content-Type: application/json
 
 {
@@ -25,6 +25,6 @@ Content-Type: application/json
 }
 
 ### DELETE entity at the REST API endpoint
-DELETE http://localhost:8080/restapi/countries/AB
+DELETE http://localhost:8090/restapi/countries/AB
 
 }

@@ -251,15 +251,21 @@
                     </feature-packs>
                     <!-- deploys the app on root web context -->
                     <name>ROOT.war</name>
+
+                    <server-args>
+                        <server-arg>-Djboss.socket.binding.port-offset=10</server-arg>
+                    </server-args>
+                    <port>10000</port>
+
                     <!-- Enable debugging -->
                     <!-- https://www.jetbrains.com/help/idea/attaching-to-local-process.html#attach-to-local -->
                     <!-- To attach a debugger to the running server from IntelliJ IDEA
                         1. From the main menu, choose `Run | Attach to Process`
                         2. IntelliJ IDEA will show the list of running local processes.
-                            Select the process with the `jboss-module.jar (8787)` name to attach to.
+                            Select the process with the `jboss-module.jar (8797)` name to attach to.
                     -->
                     <debug>true</debug>
-                    <debugPort>8787</debugPort>
+                    <debugPort>8797</debugPort>
                     <debugSuspend>false</debugSuspend>
 
                     <layers>

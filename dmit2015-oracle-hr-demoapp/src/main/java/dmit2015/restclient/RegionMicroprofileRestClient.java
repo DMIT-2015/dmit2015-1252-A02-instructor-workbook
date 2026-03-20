@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequestScoped
-@RegisterRestClient(baseUri = "http://localhost:8080/restapi/Regions")
+@RegisterRestClient(baseUri = "http://localhost:8090/restapi/Regions")
 public interface RegionMicroprofileRestClient {
 
     @POST
