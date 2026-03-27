@@ -1,10 +1,11 @@
 ### Create a new entity
 POST http://localhost:8090/restapi/StudentDtos
 Content-Type: application/json
+Authorization: Bearer {{user1_access_token}}
 
 {
-  "firstName": "Alex",
-  "lastName": "Knibb",
+  "firstName": "Marco",
+  "lastName": "Savatteri",
   "courseSection": "DMIT2015-OE01"
 }
 
@@ -17,13 +18,15 @@ GET http://localhost:8090/restapi/StudentDtos/11
 ### UPDATE entity at the REST API endpoint - will replace all properties with the properties in the request body
 PUT http://localhost:8090/restapi/StudentDtos/11
 Content-Type: application/json
+Authorization: Bearer {{user1_access_token}}
 
 {
   "id": 11,
-  "firstName": "Alexander",
-  "lastName": "Knibb",
-  "courseSection": "DMIT2015-OE01"
+  "firstName": "Marco",
+  "lastName": "Polo",
+  "courseSection": "DMIT2015-A02"
 }
 
 ### DELETE entity at the REST API endpoint
 DELETE http://localhost:8090/restapi/StudentDtos/11
+Authorization: Bearer {{admininistration_access_token}}

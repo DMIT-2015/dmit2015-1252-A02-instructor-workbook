@@ -1,5 +1,6 @@
 package dmit2015.dto;
 
+import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
@@ -12,4 +13,6 @@ public class StudentDto {
     private String lastName;
 
     private String courseSection;
+
+    private String username;
 }

@@ -5,6 +5,7 @@ import dmit2015.dto.TodoItemDto;
 import dmit2015.mapper.TodoItemMapper;
 import dmit2015.entity.TodoItem;
 import dmit2015.repository.TodoItemRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
@@ -12,9 +13,13 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.ClaimValue;
+import org.eclipse.microprofile.jwt.Claims;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -46,11 +51,20 @@ import java.util.stream.Collectors;
 public class TodoItemDtoResource {
 
     @Inject
+    @Claim(standard = Claims.upn)   // The username for the user.
+    private ClaimValue<Optional<String>> optionalUsername;
+
+    @Inject
+    @Claim(standard = Claims.groups)    // The roles that the subject is a member of.
+    private ClaimValue<Optional<Set<String>>> optionalGroups;
+
+    @Inject
     private UriInfo uriInfo;
 
     @Inject
     private TodoItemRepository todoItemRepository;
 
+    @RolesAllowed({"Sales","Shipping"})
     @POST   // POST: restapi/TodoItemsDto
     public Response postTodoItem(TodoItemDto dto) {
         if (dto == null) {
@@ -64,12 +78,17 @@ public class TodoItemDtoResource {
 
 //        TodoItem newTodoItem = mapFromDto(dto);
         TodoItem newTodoItem = TodoItemMapper.INSTANCE.toEntity(dto);
+
+        String username = optionalUsername.getValue().orElseThrow();
+        newTodoItem.setUsername(username);
+
         todoItemRepository.add(newTodoItem);
 
         URI todoItemsUri = uriInfo.getAbsolutePathBuilder().path(newTodoItem.getId().toString()).build();
         return Response.created(todoItemsUri).build();
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @GET    // GET: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response getTodoItem(@PathParam("id") Long id) {
@@ -85,9 +104,11 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @GET    // GET: restapi/TodoItemsDto
     public Response getTodoItems() {
-        return Response.ok(todoItemRepository.findAll()
+        String username = optionalUsername.getValue().orElseThrow();
+        return Response.ok(todoItemRepository.findByUsername(username)
                 .stream()
 //                .map(this::mapToDto)
                 .map(TodoItemMapper.INSTANCE::toDto)
@@ -95,6 +116,7 @@ public class TodoItemDtoResource {
                 .build();
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @PUT    // PUT: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response updateTodoItem(@PathParam("id") Long id, TodoItemDto dto) {
@@ -136,6 +158,7 @@ public class TodoItemDtoResource {
         return Response.ok(dto).build();
     }
 
+    @RolesAllowed({"Sales","Shipping"})
     @DELETE // DELETE: restapi/TodoItemsDto/5
     @Path("{id}")
     public Response deleteTodoItem(@PathParam("id") Long id) {
