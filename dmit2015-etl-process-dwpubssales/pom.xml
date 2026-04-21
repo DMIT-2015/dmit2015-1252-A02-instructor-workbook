@@ -124,6 +124,10 @@
                     <debugPort>8787</debugPort>
                     <debugSuspend>false</debugSuspend>
 
+                    <scripts>
+                        <script>/home/user2015/jdk/server/wildfly-scripts/configure-mail.cli</script>
+                    </scripts>
+
                 </configuration>
             </plugin>
         </plugins>
